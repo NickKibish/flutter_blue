@@ -29,6 +29,16 @@ class BluetoothCharacteristic {
 
   List<int> get lastValue => _value.value ?? [];
 
+  BluetoothCharacteristic(
+      this.uuid,
+      this.deviceId,
+      this.serviceUuid,
+      this.secondaryServiceUuid,
+      this.properties,
+      this.descriptors,
+      List<int> value)
+      : this._value = BehaviorSubject.seeded(value);
+
   BluetoothCharacteristic.fromProto(protos.BluetoothCharacteristic p)
       : uuid = new Guid(p.uuid),
         deviceId = new DeviceIdentifier(p.remoteId),
