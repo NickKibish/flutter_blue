@@ -17,8 +17,12 @@ class BluetoothDescriptor {
 
   List<int> get lastValue => _value.value ?? [];
 
-  BluetoothDescriptor(this.uuid, this.deviceId, this.serviceUuid,
-      this.characteristicUuid, List<int> values)
+  BluetoothDescriptor(
+      {required this.uuid,
+      required this.deviceId,
+      required this.serviceUuid,
+      required this.characteristicUuid,
+      required List<int> values})
       : this._value = BehaviorSubject.seeded(values);
 
   BluetoothDescriptor.fromProto(protos.BluetoothDescriptor p)

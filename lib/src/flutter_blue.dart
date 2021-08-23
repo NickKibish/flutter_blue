@@ -246,7 +246,10 @@ class DeviceIdentifier {
 }
 
 class ScanResult {
-  ScanResult(this.device, this.advertisementData, this.rssi);
+  ScanResult(
+      {required this.device,
+      required this.advertisementData,
+      required this.rssi});
 
   ScanResult.fromProto(protos.ScanResult p)
       : device = new BluetoothDevice.fromProto(p.device),
@@ -282,8 +285,13 @@ class AdvertisementData {
   final Map<String, List<int>> serviceData;
   final List<String> serviceUuids;
 
-  AdvertisementData(this.localName, this.txPowerLevel, this.connectable,
-      this.manufacturerData, this.serviceData, this.serviceUuids);
+  AdvertisementData(
+      {required this.localName,
+      this.txPowerLevel,
+      required this.connectable,
+      required this.manufacturerData,
+      required this.serviceData,
+      required this.serviceUuids});
 
   AdvertisementData.fromProto(protos.AdvertisementData p)
       : localName = p.localName,
