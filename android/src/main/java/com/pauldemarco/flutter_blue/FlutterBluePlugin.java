@@ -182,7 +182,11 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
+        // Log method
+        Log.i(TAG, "[x] onMethodCall: " + call.method);
+
         if(mBluetoothAdapter == null && !"isAvailable".equals(call.method)) {
+            Log.e(TAG, "Bluetooth not available");
             result.error("bluetooth_unavailable", "the device does not have bluetooth", null);
             return;
         }
@@ -238,8 +242,26 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
 
             case "startScan":
             {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    // log version
+                    Log.i(TAG, "[x] SDK version: " + Build.VERSION.SDK_INT);
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT)
                         != PackageManager.PERMISSION_GRANTED) {
+                        Log.i(TAG, "[x] Permission not granted: " + Manifest.permission.BLUETOOTH_CONNECT);
+                        ActivityCompat.requestPermissions(
+                                activityBinding.getActivity(),
+                                new String[]{
+                                        Manifest.permission.BLUETOOTH_CONNECT,
+                                        Manifest.permission.BLUETOOTH_SCAN,
+                                },
+                                REQUEST_FINE_LOCATION_PERMISSIONS);
+                        pendingCall = call;
+                        pendingResult = result;
+                        break;
+                    }
+                } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "[x] Permission not granted: " + Manifest.permission.ACCESS_FINE_LOCATION);
                     ActivityCompat.requestPermissions(
                             activityBinding.getActivity(),
                             new String[] {
@@ -643,7 +665,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
                 startScan(pendingCall, pendingResult);
             } else {
                 pendingResult.error(
-                        "no_permissions", "flutter_blue plugin requires location permissions for scanning", null);
+                        "no_location_permissions", "flutter_blue plugin requires location permissions for scanning", null);
                 pendingResult = null;
                 pendingCall = null;
             }
@@ -712,6 +734,8 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
                             sink.success(Protos.BluetoothState.newBuilder().setState(Protos.BluetoothState.State.TURNING_OFF).build().toByteArray());
                             break;
                         case BluetoothAdapter.STATE_ON:
+
+
                             sink.success(Protos.BluetoothState.newBuilder().setState(Protos.BluetoothState.State.ON).build().toByteArray());
                             break;
                         case BluetoothAdapter.STATE_TURNING_ON:
@@ -744,12 +768,15 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
             allowDuplicates = settings.getAllowDuplicates();
             macDeviceScanned.clear();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Log.d(TAG, "[x] startScan Lollipop");
                 startScan21(settings);
             } else {
+                Log.d(TAG, "[x] startScan Pre Lollipop");
                 startScan18(settings);
             }
             result.success(null);
         } catch (Exception e) {
+            Log.e(TAG, "[x] startScan", e);
             result.error("startScan", e.getMessage(), e);
         }
     }
@@ -776,6 +803,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
                         if (macDeviceScanned.contains(result.getDevice().getAddress())) return;
                         macDeviceScanned.add(result.getDevice().getAddress());
                     }
+                    Log.d(TAG, "[x] onScanResult " + result.toString());
                     Protos.ScanResult scanResult = ProtoMaker.from(result.getDevice(), result);
                     invokeMethodUIThread("ScanResult", scanResult.toByteArray());
                 }
@@ -788,6 +816,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
 
                 @Override
                 public void onScanFailed(int errorCode) {
+
                     super.onScanFailed(errorCode);
                 }
             };
@@ -815,6 +844,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
     private void stopScan21() {
         BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
         if(scanner != null) scanner.stopScan(getScanCallback21());
+        Log.d(TAG, "[x] scanning stopped");
     }
 
     private BluetoothAdapter.LeScanCallback scanCallback18;

@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: flutterblue.proto
+//  source: protos/flutterblue.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -17,6 +17,7 @@ class BluetoothState_State extends $pb.ProtobufEnum {
   static const BluetoothState_State ON = BluetoothState_State._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ON');
   static const BluetoothState_State TURNING_OFF = BluetoothState_State._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TURNING_OFF');
   static const BluetoothState_State OFF = BluetoothState_State._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'OFF');
+  static const BluetoothState_State LOCATION_DENIED = BluetoothState_State._(7, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'LOCATION_DENIED');
 
   static const $core.List<BluetoothState_State> values = <BluetoothState_State> [
     UNKNOWN,
@@ -26,6 +27,7 @@ class BluetoothState_State extends $pb.ProtobufEnum {
     ON,
     TURNING_OFF,
     OFF,
+    LOCATION_DENIED,
   ];
 
   static final $core.Map<$core.int, BluetoothState_State> _byValue = $pb.ProtobufEnum.initByValue(values);

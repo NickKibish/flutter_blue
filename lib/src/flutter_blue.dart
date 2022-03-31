@@ -80,6 +80,40 @@ class FlutterBlue {
     }
   }
 
+  Future<void> prepareForScan({
+    ScanMode scanMode = ScanMode.lowLatency,
+    List<Guid> withServices = const [],
+    List<Guid> withDevices = const [],
+    Duration? timeout,
+    bool allowDuplicates = false,
+  }) async {
+    var settings = protos.ScanSettings.create()
+      ..androidScanMode = scanMode.value
+      ..allowDuplicates = allowDuplicates
+      ..serviceUuids.addAll(withServices.map((g) => g.toString()).toList());
+
+    if (_isScanning.value == true) {
+      throw PlatformException(
+          code: "scan_already_in_progress",
+          message: "Another scan is already in progress.");
+    }
+
+    // Emit to isScanning
+    _isScanning.add(true);
+
+    // Clear scan results list
+    _scanResults.add(<ScanResult>[]);
+
+    try {
+      await _channel.invokeMethod('startScan', settings.writeToBuffer());
+    } catch (e) {
+      print('Error starting scan.');
+      _stopScanPill.add(null);
+      _isScanning.add(false);
+      throw e;
+    }
+  }
+
   /// Starts a scan for Bluetooth Low Energy devices and returns a stream
   /// of the [ScanResult] results as they are received.
   ///
@@ -93,36 +127,12 @@ class FlutterBlue {
     Duration? timeout,
     bool allowDuplicates = false,
   }) async* {
-    var settings = protos.ScanSettings.create()
-      ..androidScanMode = scanMode.value
-      ..allowDuplicates = allowDuplicates
-      ..serviceUuids.addAll(withServices.map((g) => g.toString()).toList());
-
-    if (_isScanning.value == true) {
-      throw Exception('Another scan is already in progress.');
-    }
-
-    // Emit to isScanning
-    _isScanning.add(true);
-
     final killStreams = <Stream>[];
     killStreams.add(_stopScanPill);
     if (timeout != null) {
       killStreams.add(Rx.timer(null, timeout));
     }
-
-    // Clear scan results list
-    _scanResults.add(<ScanResult>[]);
-
-    try {
-      await _channel.invokeMethod('startScan', settings.writeToBuffer());
-    } catch (e) {
-      print('Error starting scan.');
-      _stopScanPill.add(null);
-      _isScanning.add(false);
-      throw e;
-    }
-
+    
     yield* FlutterBlue.instance._methodStream
         .where((m) => m.method == "ScanResult")
         .map((m) => m.arguments)

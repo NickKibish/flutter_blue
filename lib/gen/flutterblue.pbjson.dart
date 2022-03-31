@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: flutterblue.proto
+//  source: protos/flutterblue.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
@@ -38,11 +38,12 @@ const BluetoothState_State$json = const {
     const {'1': 'ON', '2': 4},
     const {'1': 'TURNING_OFF', '2': 5},
     const {'1': 'OFF', '2': 6},
+    const {'1': 'LOCATION_DENIED', '2': 7},
   ],
 };
 
 /// Descriptor for `BluetoothState`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List bluetoothStateDescriptor = $convert.base64Decode('Cg5CbHVldG9vdGhTdGF0ZRIrCgVzdGF0ZRgBIAEoDjIVLkJsdWV0b290aFN0YXRlLlN0YXRlUgVzdGF0ZSJpCgVTdGF0ZRILCgdVTktOT1dOEAASDwoLVU5BVkFJTEFCTEUQARIQCgxVTkFVVEhPUklaRUQQAhIOCgpUVVJOSU5HX09OEAMSBgoCT04QBBIPCgtUVVJOSU5HX09GRhAFEgcKA09GRhAG');
+final $typed_data.Uint8List bluetoothStateDescriptor = $convert.base64Decode('Cg5CbHVldG9vdGhTdGF0ZRIrCgVzdGF0ZRgBIAEoDjIVLkJsdWV0b290aFN0YXRlLlN0YXRlUgVzdGF0ZSJ+CgVTdGF0ZRILCgdVTktOT1dOEAASDwoLVU5BVkFJTEFCTEUQARIQCgxVTkFVVEhPUklaRUQQAhIOCgpUVVJOSU5HX09OEAMSBgoCT04QBBIPCgtUVVJOSU5HX09GRhAFEgcKA09GRhAGEhMKD0xPQ0FUSU9OX0RFTklFRBAH');
 @$core.Deprecated('Use advertisementDataDescriptor instead')
 const AdvertisementData$json = const {
   '1': 'AdvertisementData',

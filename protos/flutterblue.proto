@@ -25,6 +25,7 @@ message BluetoothState {
     ON = 4;
     TURNING_OFF = 5;
     OFF = 6;
+    LOCATION_DENIED = 7;
   };
   State state = 1;
 }
