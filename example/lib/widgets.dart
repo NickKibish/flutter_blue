@@ -24,7 +24,7 @@ class ScanResultTile extends StatelessWidget {
           ),
           Text(
             result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
           )
         ],
       );
@@ -39,7 +39,7 @@ class ScanResultTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: Theme.of(context).textTheme.caption),
+          Text(title, style: Theme.of(context).textTheme.bodySmall),
           SizedBox(
             width: 12.0,
           ),
@@ -91,10 +91,10 @@ class ScanResultTile extends StatelessWidget {
     return ExpansionTile(
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),
-      trailing: RaisedButton(
+      trailing: TextButton(
         child: Text('CONNECT'),
-        color: Colors.black,
-        textColor: Colors.white,
+        // color: Colors.black,
+        // textColor: Colors.white,
         onPressed: (result.advertisementData.connectable) ? onTap : null,
       ),
       children: <Widget>[
