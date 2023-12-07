@@ -1,2 +1,4 @@
 #include "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
 #include "Generated.xcconfig"
+
+FLUTTER_FRAMEWORK_DIR=/opt/homebrew/Caskroom/flutter/3.7.6/flutter/bin/cache/artifacts/engine/ios

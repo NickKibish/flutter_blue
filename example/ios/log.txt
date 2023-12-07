@@ -1,0 +1,12 @@
+Invalid plugin specification: EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
+Invalid plugin specification: EXCLUDED_ARCHS[sdk=iphoneos*]=armv7
+Invalid plugin specification: DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9jZjdhOWQwODAwZjJhNWRhMTY2ZGJlMGViOWZiMjQ3NjAxODI2OWIxLw==
+
+[!] Invalid `Podfile` file: no implicit conversion of nil into String.
+
+ #  from /Users/nick/Developer/Nordic/nRF-Programmer/flutter_blue/example/ios/Podfile:54
+ #  -------------------------------------------
+ #      unless File.exist?(copied_framework_path)
+ >        FileUtils.cp_r(File.join(cached_framework_dir, 'Flutter.framework'), copied_flutter_dir)
+ #      end
+ #  -------------------------------------------
